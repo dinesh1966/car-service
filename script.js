@@ -140,7 +140,7 @@ const ClockIcon=()=>(<svg width="28" height="28" viewBox="0 0 24 24" fill="none"
 const WrenchIcon2=()=>(<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>);
 const ThumbIcon=()=>(<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>);
 const TeamIcon=()=>(<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>);
-function WhyChooseUs(){const features=[{icon:<ShieldIcon/>,title:"Trusted Service",desc:"Certified mechanics with years of hands-on experience you can count on.",stat:"10+ Years Experience"},{icon:<ClockIcon/>,title:"Fast Turnaround",desc:"Most services completed in under 2 hours. Back on the road, fast.",stat:"Avg. 90 Min Service"},{icon:<WrenchIcon2/>,title:"Genuine Parts Only",desc:"We use 100% OEM-grade spare parts — no shortcuts, no compromises.",stat:"OEM Certified Parts"},{icon:<ThumbIcon/>,title:"5000+ Happy Customers",desc:"Thousands trust us every month. Your satisfaction is our guarantee.",stat:"4.9★ Average Rating"},{icon:<TeamIcon/>,title:"Expert Mechanics",desc:"Meet the certified professionals who treat your car like their own.",stat:"View Our Team",action:true}];return(<section className="why-section"><div className="why-header"><span className="why-label">Our Commitment</span><h2 className="why-heading">Why Choose <span>CarCare?</span></h2></div><div className="why-grid">{features.map((item,i)=>(<div className={`why-card${item.action?' tm-trigger':''}`} key={i} onClick={()=>{if(item.action) window.dispatchEvent(new Event('open-team-modal'))}}><div className="why-card-line"/><div className="why-icon-wrap">{item.icon}</div><div className="why-card-text"><h3>{item.title}</h3><p>{item.desc}</p><div className="why-stat">{item.action?item.stat+' →':'→ '+item.stat}</div></div></div>))}</div></section>);}
+function WhyChooseUs(){const features=[{icon:<ShieldIcon/>,title:"Trusted Service",desc:"Certified mechanics with years of hands-on experience you can count on.",stat:"10+ Years Experience",img:"https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&q=80"},{icon:<ClockIcon/>,title:"Fast Turnaround",desc:"Most services completed in under 2 hours. Back on the road, fast.",stat:"Avg. 90 Min Service",img:"https://images.unsplash.com/photo-1542281286-9e0a16bb7366?w=600&q=80"},{icon:<WrenchIcon2/>,title:"Genuine Parts Only",desc:"We use 100% OEM-grade spare parts — no shortcuts, no compromises.",stat:"OEM Certified Parts",img:"https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80"},{icon:<ThumbIcon/>,title:"5000+ Happy Customers",desc:"Thousands trust us every month. Your satisfaction is our guarantee.",stat:"4.9★ Average Rating",img:"https://images.unsplash.com/photo-1517026575980-3e1e2dedeab4?w=600&q=80"},{icon:<TeamIcon/>,title:"Expert Mechanics",desc:"Meet the certified professionals who treat your car like their own.",stat:"Meet Our Team",action:true,img:"https://images.unsplash.com/photo-1513530534585-c7b1394c6d51?w=600&q=80"}];return(<section className="why-section"><div className="why-header"><span className="why-label">Our Commitment</span><h2 className="why-heading">Why Choose <span>CarCare?</span></h2></div><div className="why-grid">{features.map((item,i)=>(<div className={`why-card${item.action?' tm-trigger':''}`} key={i} onClick={()=>{if(item.action) document.getElementById('team-mechanic')?.scrollIntoView({behavior:'smooth'})}}><div className="why-card-img-wrap"><img src={item.img} className="why-card-img" alt={item.title}/><div className="why-card-overlay"/></div><div className="why-card-line"/><div className="why-icon-wrap">{item.icon}</div><div className="why-card-text"><h3>{item.title}</h3><p>{item.desc}</p><div className="why-stat">{item.action?item.stat+' →':'→ '+item.stat}</div></div></div>))}</div></section>);}
 ReactDOM.createRoot(document.getElementById('react-why-root')).render(<WhyChooseUs/>);
 
 
@@ -264,7 +264,61 @@ ReactDOM.createRoot(document.getElementById('react-pricing-root')).render(<Prici
 ReactDOM.createRoot(document.getElementById('react-faq-root')).render(<FAQSection/>);
 ReactDOM.createRoot(document.getElementById('react-booking-root')).render(<BookingSection/>);
 
+function MechanicFeature(){
+  const m = {
+    name: "Rajesh Kumar",
+    role: "Lead Diagnostic Specialist",
+    exp: "15+ Years Experience",
+    qual: "Bosch Certified Expert",
+    img: "main_mechanic.png",
+    bio: "Our lead expert specializing in complex electronic diagnostics and performance tuning. Rajesh treats every car with the precision and care it deserves."
+  };
 
+  return(
+    <section className="mechanic-feature-section" id="team-mechanic">
+      <div className="mf-container">
+        <div className="mf-content">
+          <div className="mf-info-side">
+            <span className="mf-label">Expert in Charge</span>
+            <h2 className="mf-heading">Meet Our <span>Master Mechanic</span></h2>
+            <p className="mf-desc">{m.bio}</p>
+            <div className="mf-stats-grid">
+              <div className="mf-stat-box">
+                <div className="mf-stat-val">15+</div>
+                <div className="mf-stat-lbl">Years Exp</div>
+              </div>
+              <div className="mf-stat-box">
+                <div className="mf-stat-val">4.9★</div>
+                <div className="mf-stat-lbl">Rating</div>
+              </div>
+            </div>
+            <div className="mf-badges">
+              <span className="mf-badge">🎓 {m.qual}</span>
+              <span className="mf-badge">✅ Verified Expert</span>
+            </div>
+            <button className="mf-cta-btn" onClick={() => window.dispatchEvent(new CustomEvent('open-booking-modal',{detail:{service:'General Service'}}))}>
+              Book with Rajesh →
+            </button>
+          </div>
+          <div className="mf-image-side">
+            <div className="mf-img-frame">
+              <img src={m.img} alt={m.name} className="mf-main-img" />
+              <div className="mf-img-overlay" />
+              <div className="mf-floating-card">
+                <div className="mf-fc-icon">🔧</div>
+                <div className="mf-fc-text">
+                  <strong>{m.name}</strong>
+                  <span>{m.role}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+ReactDOM.createRoot(document.getElementById('react-mechanic-feature-root')).render(<MechanicFeature/>);
 
 function BookingModal(){const[open,setOpen]=React.useState(false);const[service,setService]=React.useState('');const[step,setStep]=React.useState(1);const[selDate,setSelDate]=React.useState(null);const[selTime,setSelTime]=React.useState('');const[calMonth,setCalMonth]=React.useState(new Date().getMonth());const[calYear,setCalYear]=React.useState(new Date().getFullYear());const[form,setFormState]=React.useState({name:'',phone:'',car:'',address:''});
 React.useEffect(()=>{const handler=e=>{setService(e.detail.service||'');setStep(1);setSelDate(null);setSelTime('');setFormState({name:'',phone:'',car:'',address:''});const now=new Date();setCalMonth(now.getMonth());setCalYear(now.getFullYear());setOpen(true);document.body.style.overflow='hidden';};window.addEventListener('open-booking-modal',handler);return()=>window.removeEventListener('open-booking-modal',handler);},[]);
@@ -283,7 +337,6 @@ return(<div className={`bm-overlay${open?' open':''}`} onClick={e=>{if(e.target=
 </div></div>);}
 ReactDOM.createRoot(document.getElementById('react-booking-modal-root')).render(<BookingModal/>);
 
-
 function TeamModal(){
   const [open,setOpen]=React.useState(false);
   const close=()=>{setOpen(false);document.body.style.overflow='';};
@@ -294,42 +347,36 @@ function TeamModal(){
     return ()=>window.removeEventListener('open-team-modal',handle);
   },[]);
   
-  const team=[
-    {name:"Rajesh Kumar",role:"Lead Diagnostic Specialist",exp:"15+ Years Exp",qual:"Bosch Certified Expert",img:"https://images.unsplash.com/photo-1537512711018-0f5fb3203fcf?w=400&q=80"},
-    {name:"Suresh Menon",role:"Master Engine Technician",exp:"12+ Years Exp",qual:"ASE Certified",img:"https://images.unsplash.com/photo-1544723795-3ca315e2144f?w=400&q=80"},
-    {name:"Arun Prakash",role:"Electrical Systems Lead",exp:"8+ Years Exp",qual:"Diploma in Auto Electronics",img:"https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80"},
-    {name:"Velan T.",role:"Premium Detailing Expert",exp:"10+ Years Exp",qual:"Paint Correction Pro",img:"https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80"}
-  ];
+  const m={name:"Rajesh Kumar",role:"Lead Diagnostic Specialist",exp:"15+ Years Exp",qual:"Bosch Certified Expert",img:"main_mechanic.png"};
 
   return(
     <div className={`bm-overlay${open?' open':''}`} onClick={e=>{if(e.target===e.currentTarget)close();}}>
       <div className="tm-modal bm-modal">
         <button className="bm-close" onClick={close}>✕</button>
-        <h2 className="bm-title" style={{textAlign:'center', marginBottom: '10px'}}>Our <span>Expert Team</span></h2>
-        <p className="bm-subtitle" style={{textAlign:'center', marginBottom: '30px'}}>Meet the certified professionals who bring life back to your car.</p>
+        <h2 className="bm-title" style={{textAlign:'center', marginBottom: '10px'}}>Our <span>Expert Mechanic</span></h2>
+        <p className="bm-subtitle" style={{textAlign:'center', marginBottom: '30px'}}>Meet the certified professional who brings life back to your car.</p>
         
-        <div className="tm-grid">
-          {team.map((member, i) => (
-            <div className="tm-card" key={i}>
+        <div style={{display:'flex', justifyContent:'center'}}>
+            <div className="tm-card" style={{maxWidth:'400px'}}>
               <div className="tm-img-wrap">
-                <img src={member.img} alt={member.name} />
+                <img src={m.img} alt={m.name} />
               </div>
               <div className="tm-info">
-                <h3>{member.name}</h3>
-                <div className="tm-role">{member.role}</div>
+                <h3>{m.name}</h3>
+                <div className="tm-role">{m.role}</div>
                 <div className="tm-meta">
-                  <span className="tm-exp">⏱ {member.exp}</span>
-                  <span className="tm-qual">🎓 {member.qual}</span>
+                  <span className="tm-exp">⏱ {m.exp}</span>
+                  <span className="tm-qual">🎓 {m.qual}</span>
                 </div>
               </div>
             </div>
-          ))}
         </div>
       </div>
     </div>
   );
 }
 ReactDOM.createRoot(document.getElementById('react-team-modal-root')).render(<TeamModal/>);
+
 
 
 

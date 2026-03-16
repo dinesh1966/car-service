@@ -18,40 +18,7 @@
     });
   });
 
-  /* ── Custom cursor ── */
-  const dot = document.querySelector('.cursor-dot');
-  if (dot) {
-    let mx = 0, my = 0;
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    const animCursor = () => {
-      dot.style.transform = `translate(calc(${mx}px - 50%), calc(${my}px - 50%))`;
-      requestAnimationFrame(animCursor);
-    };
-    animCursor();
-
-    /* Magic cursor glow logic */
-    const magicGlow = document.querySelector('.magic-glow');
-    if (magicGlow) {
-      let gx = window.innerWidth / 2;
-      let gy = window.innerHeight / 2;
-      const animGlow = () => {
-        gx += (mx - gx) * 0.08; // slightly slower follow for deep glowing feel
-        gy += (my - gy) * 0.08;
-        magicGlow.style.transform = `translate(calc(${gx}px - 50%), calc(${gy}px - 50%))`;
-        requestAnimationFrame(animGlow);
-      };
-      animGlow();
-
-      document.body.addEventListener('mousemove', () => {
-        if (magicGlow.style.opacity === "0" || magicGlow.style.opacity === "") {
-          magicGlow.style.opacity = "1";
-        }
-      });
-      document.body.addEventListener('mouseleave', () => {
-        magicGlow.style.opacity = "0";
-      });
-    }
-  }
+  /* Custom cursor and glow removed */
 
   /* ── Parallax hero background ── */
   const heroBg = document.querySelector('.hero-parallax-bg');
