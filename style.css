@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: Poppins;
+  cursor: none !important;
 }
 
 html {
@@ -228,44 +229,28 @@ body.light-mode .magic-glow {
 /* ===== CUSTOM CURSOR ===== */
 .cursor-dot {
   position: fixed;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #356DFF;
+  width: 28px;
+  height: 28px;
   pointer-events: none;
   z-index: 99999;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 12px rgba(53, 109, 255, 0.8);
-  transition: width 0.15s, height 0.15s, background 0.2s;
+  color: #356DFF;
+  filter: drop-shadow(0 0 8px rgba(53, 109, 255, 0.6));
+  display: flex;
+  align-items: center;
+  justify-content: center;
   will-change: transform;
 }
 
-.cursor-ring {
-  position: fixed;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(53, 109, 255, 0.5);
-  pointer-events: none;
-  z-index: 99998;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s cubic-bezier(0.23, 1, 0.32, 1),
-    height 0.3s cubic-bezier(0.23, 1, 0.32, 1),
-    border-color 0.3s;
-  will-change: transform;
-}
-
-.cursor-ring.ring-hover {
-  width: 60px;
-  height: 60px;
-  border-color: rgba(53, 109, 255, 0.9);
-  background: rgba(53, 109, 255, 0.05);
+.cursor-dot svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-15deg);
 }
 
 @media(hover:none) {
 
-  .cursor-dot,
-  .cursor-ring {
+  .cursor-dot {
     display: none;
   }
 
@@ -309,44 +294,7 @@ body.light-mode .magic-glow {
   }
 }
 
-/* ===== SECTION FADE IN / OUT ===== */
-.fade-section:nth-child(odd),
-.react-services-section,
-.offer-section,
-.rv-section,
-.faq-section {
-  opacity: 0;
-  transform: translateX(-120px);
-  transition: opacity 0.85s cubic-bezier(0.23, 1, 0.32, 1),
-    transform 0.85s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.fade-section:nth-child(even),
-.why-section,
-.ba-section,
-.pricing-section,
-.booking-section,
-footer {
-  opacity: 0;
-  transform: translateX(120px);
-  transition: opacity 0.85s cubic-bezier(0.23, 1, 0.32, 1),
-    transform 0.85s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.section-visible {
-  opacity: 1 !important;
-  transform: translateX(0) scale(1) !important;
-}
-
-.section-hidden-above {
-  opacity: 0 !important;
-  transform: translateX(-160px) scale(0.95) !important;
-}
-
-.section-hidden-below {
-  opacity: 0 !important;
-  transform: translateX(160px) scale(0.95) !important;
-}
+/* Section animations removed */
 
 /* ===== HERO BADGE ===== */
 .hero-badge {
@@ -366,22 +314,7 @@ footer {
   backdrop-filter: blur(8px);
 }
 
-/* ===== HERO REVEAL ANIMATIONS ===== */
-@keyframes revealUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.reveal-up {
-  animation: revealUp 0.85s cubic-bezier(0.23, 1, 0.32, 1) both;
-}
+/* Reveal animations removed */
 
 /* ===== PARALLAX HERO BG ===== */
 .hero {
@@ -397,11 +330,9 @@ footer {
 
 .hero-parallax-bg {
   position: absolute;
-  inset: -12% 0;
+  inset: 0;
   z-index: 0;
   background: url("https://images.unsplash.com/photo-1503376780353-7e6692767b70") center/cover;
-  transform: scale(1.12);
-  will-change: transform;
   filter: saturate(0.8) brightness(0.7);
 }
 
@@ -445,6 +376,7 @@ body.light-mode .hero h1 {
       #0d0d1a 80%);
   background-size: 200% auto;
   -webkit-background-clip: text;
+  background-clip: text;
 }
 
 @keyframes shineText {
@@ -4496,4 +4428,1160 @@ body.light-mode .form-input {
 
 body.light-mode .glass-shimmer {
   background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.5) 0%, transparent 60%) !important;
+}/* =====================================================
+   CarCare — Responsive Fix (All Devices)
+   Mobile-first, Tablet, Desktop breakpoints
+   ===================================================== */
+
+/* ===== BASE RESET & MOBILE FOUNDATION ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  min-width: 320px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ===== HEADER ===== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 5%;
+  flex-wrap: wrap;
+  gap: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
+  transition: background 0.4s, border-color 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+}
+
+.logo {
+  height: 36px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  justify-content: center;
+}
+
+nav a {
+  margin: 0;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.theme-switch {
+  flex-shrink: 0;
+}
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 90vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  overflow: hidden;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  padding: 20px 5%;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ===== SECTIONS ===== */
+section {
+  padding: 70px 5%;
+  width: 100%;
+}
+
+/* ===== STATS SECTION ===== */
+.stats-section {
+  padding: 40px 5% 60px;
+  margin-top: -60px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ===== SERVICES ===== */
+.react-services-section {
+  padding: 70px 5%;
+}
+
+.services-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.service-card {
+  height: 320px;
+  border-radius: 14px;
+}
+
+/* ===== WHY SECTION ===== */
+.why-section {
+  padding: 70px 5%;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ===== OFFERS ===== */
+.offer-section {
+  padding: 70px 5%;
+}
+
+.offer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.offer-strip {
+  margin-left: -5%;
+  margin-right: -5%;
+}
+
+/* ===== BEFORE AFTER ===== */
+.ba-section {
+  padding: 70px 5%;
+}
+
+.ba-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto 40px;
+}
+
+.ba-card {
+  height: 380px;
+  border-radius: 16px;
+}
+
+/* ===== REVIEWS ===== */
+.rv-header {
+  padding: 0 5% 40px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.rv-progress-wrap {
+  padding: 0 5%;
+  margin-left: 0;
+}
+
+/* ===== PRICING ===== */
+.pricing-section {
+  padding: 70px 5%;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto 50px;
+}
+
+/* ===== FAQ ===== */
+.faq-section {
+  padding: 70px 5%;
+}
+
+.faq-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ===== BOOKING ===== */
+.booking-section {
+  padding: 70px 5%;
+}
+
+.cta-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.cta-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  padding: 60px 5% 24px !important;
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 36px;
+}
+
+.footer-logo {
+  height: 40px;
+  width: auto;
+}
+
+/* ===== HERO STATS BAR ===== */
+.hero-stats-bar {
+  flex-wrap: wrap;
+  gap: 0;
+  padding: 16px 5%;
+}
+
+.hero-stat-item {
+  padding: 8px 20px;
+}
+
+/* ============================================================
+   TABLET — max-width: 1024px
+   ============================================================ */
+@media (max-width: 1024px) {
+  header {
+    padding: 12px 4%;
+    gap: 8px;
+  }
+
+  nav a {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .services-container {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .why-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .ba-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .ba-card {
+    height: 320px;
+  }
+
+  .pricing-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+
+  .faq-inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .faq-right {
+    position: static;
+  }
+
+  .faq-img-wrap {
+    height: 360px;
+  }
+
+  .rv-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+  }
+
+  .footer-inner .footer-col:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .cta-wrapper {
+    gap: 36px;
+  }
+
+  .why-heading,
+  .ba-heading,
+  .rv-heading,
+  .pricing-heading,
+  .faq-heading,
+  .booking-heading,
+  .offer-heading {
+    font-size: 34px;
+  }
+}
+
+/* ============================================================
+   MOBILE — max-width: 768px
+   HORIZONTAL SCROLL for cards enabled here
+   ============================================================ */
+@media (max-width: 768px) {
+
+  /* ── Header ── */
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 4%;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+
+  header h2 {
+    flex-shrink: 0;
+  }
+
+  nav {
+    display: none; /* Hide nav on mobile — shown via hamburger or compact below */
+  }
+
+  .theme-switch {
+    margin-left: auto;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 80vh;
+  }
+
+  .hero h1 {
+    font-size: 26px;
+    line-height: 1.25;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  .hero-badge {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    padding: 5px 12px;
+  }
+
+  /* ── Hero Stats Bar ── */
+  .hero-stats-bar {
+    gap: 0;
+    padding: 12px 4%;
+  }
+
+  .hero-stat-item {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 10px 8px;
+  }
+
+  .hero-stat-num {
+    font-size: 20px;
+  }
+
+  .hero-stat-label {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .hero-stat-divider {
+    display: none;
+  }
+
+  /* ── Stats Section ── */
+  .stats-section {
+    padding: 30px 4% 50px;
+    margin-top: -50px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .stat-box {
+    padding: 20px 14px 18px;
+    border-radius: 12px;
+  }
+
+  .stat-icon-wrap {
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .stat-number {
+    font-size: 32px;
+    letter-spacing: -1px;
+  }
+
+  .stat-number .stat-sfx {
+    font-size: 16px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  .stat-subtext {
+    font-size: 10px;
+  }
+
+  /* ── Services — HORIZONTAL SCROLL ── */
+  .react-services-section {
+    padding: 60px 0 60px;
+    overflow: hidden;
+  }
+
+  .react-services-section .react-title,
+  .react-services-section .react-title-main {
+    padding: 0 4%;
+  }
+
+  .services-container {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 14px;
+    padding: 10px 4% 20px;
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .services-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .service-card {
+    flex: 0 0 76vw;
+    max-width: 300px;
+    min-width: 240px;
+    height: 300px;
+    border-radius: 14px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* ── Why Section ── */
+  .why-section {
+    padding: 60px 4%;
+  }
+
+  .why-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .why-card {
+    padding: 24px 20px;
+    gap: 16px;
+  }
+
+  .why-heading {
+    font-size: 28px;
+  }
+
+  /* ── Offers — HORIZONTAL SCROLL ── */
+  .offer-section {
+    padding: 60px 0 60px;
+    overflow: hidden;
+  }
+
+  .offer-section .offer-header {
+    padding: 0 4%;
+  }
+
+  .offer-grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 14px;
+    padding: 10px 4% 20px;
+    max-width: 100%;
+  }
+
+  .offer-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .offer-card {
+    flex: 0 0 78vw;
+    max-width: 320px;
+    min-width: 260px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    border-radius: 16px;
+  }
+
+  .offer-strip {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .offer-heading {
+    font-size: 28px;
+  }
+
+  /* ── Before / After ── */
+  .ba-section {
+    padding: 60px 4%;
+  }
+
+  .ba-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .ba-card {
+    height: 280px;
+  }
+
+  .ba-heading {
+    font-size: 28px;
+  }
+
+  .ba-trust {
+    gap: 20px;
+    padding-top: 30px;
+    flex-wrap: wrap;
+  }
+
+  .ba-trust-item {
+    flex: 0 0 calc(50% - 10px);
+    text-align: center;
+  }
+
+  /* ── Reviews ── */
+  .rv-section {
+    padding: 60px 0 60px;
+  }
+
+  .rv-header {
+    padding: 0 4% 30px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .rv-heading {
+    font-size: 28px;
+  }
+
+  .rv-big-score {
+    font-size: 40px;
+  }
+
+  .rv-progress-wrap {
+    padding: 0 4%;
+    margin-left: 0;
+    max-width: 100%;
+  }
+
+  .rv-dots {
+    padding-top: 24px;
+  }
+
+  /* ── Pricing — HORIZONTAL SCROLL ── */
+  .pricing-section {
+    padding: 60px 0 60px;
+    overflow: hidden;
+  }
+
+  .pricing-section .pricing-header {
+    padding: 0 4%;
+    margin-bottom: 30px;
+  }
+
+  .billing-toggle {
+    margin: 0 4% 30px;
+    display: flex;
+    width: calc(100% - 8%);
+  }
+
+  .pricing-grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 14px;
+    padding: 10px 4% 20px;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .pricing-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .p-card {
+    flex: 0 0 82vw;
+    max-width: 340px;
+    min-width: 280px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    border-radius: 16px;
+  }
+
+  .pricing-heading {
+    font-size: 28px;
+  }
+
+  /* ── FAQ ── */
+  .faq-section {
+    padding: 60px 4%;
+  }
+
+  .faq-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .faq-right {
+    position: static;
+  }
+
+  .faq-img-wrap {
+    height: 280px;
+  }
+
+  .faq-heading {
+    font-size: 28px;
+  }
+
+  /* ── Booking / CTA ── */
+  .booking-section {
+    padding: 60px 4%;
+  }
+
+  .cta-wrapper {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .cta-contact-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .cta-book-btn,
+  .cta-wa-btn {
+    padding: 13px 22px;
+    font-size: 14px;
+  }
+
+  .booking-heading {
+    font-size: 28px;
+  }
+
+  /* ── Footer ── */
+  footer {
+    padding: 50px 4% 24px !important;
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .footer-inner .footer-col:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .footer-tagline {
+    max-width: 100%;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .footer-bottom-links {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  /* ── FAB Buttons ── */
+  .whatsapp,
+  .call {
+    padding: 13px;
+    border-radius: 50%;
+  }
+
+  .whatsapp {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .call {
+    bottom: 74px;
+    right: 16px;
+  }
+
+  .fab-label {
+    display: none;
+  }
+
+  /* ── Booking Modal ── */
+  .bm-modal {
+    padding: 22px 16px;
+    border-radius: 14px;
+  }
+
+  .bm-time-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .bm-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .bm-btn-row {
+    flex-direction: column;
+  }
+
+  .bm-btn-back,
+  .bm-btn-next {
+    flex: none;
+    width: 100%;
+  }
+
+  /* ── Section headings ── */
+  .why-heading,
+  .ba-heading,
+  .rv-heading,
+  .pricing-heading,
+  .faq-heading,
+  .booking-heading,
+  .offer-heading,
+  .react-title-main {
+    font-size: 28px !important;
+    line-height: 1.2;
+  }
+
+  /* Fix section-level paddings that might add overflow */
+  .offer-section,
+  .react-services-section,
+  .pricing-section {
+    overflow: hidden;
+  }
+}
+
+/* ============================================================
+   SMALL MOBILE — max-width: 480px
+   ============================================================ */
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 22px;
+  }
+
+  .hero p {
+    font-size: 13px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .stat-number {
+    font-size: 28px;
+  }
+
+  .stat-label {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+
+  .service-card {
+    flex: 0 0 82vw;
+    height: 280px;
+  }
+
+  .offer-card {
+    flex: 0 0 84vw;
+  }
+
+  .p-card {
+    flex: 0 0 88vw;
+  }
+
+  .why-card {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    padding: 18px 14px;
+    gap: 12px;
+  }
+
+  .why-icon-wrap {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+
+  .cta-contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bm-time-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-inner .footer-col:first-child {
+    grid-column: 1;
+  }
+
+  .rv-heading {
+    font-size: 24px;
+  }
+
+  .billing-toggle {
+    width: calc(100% - 8%);
+  }
+
+  .billing-btn {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  .ba-card {
+    height: 240px;
+  }
+
+  .faq-img-wrap {
+    height: 240px;
+  }
+}
+
+/* ============================================================
+   VERY SMALL MOBILE — max-width: 360px
+   ============================================================ */
+@media (max-width: 360px) {
+  header {
+    padding: 10px 3%;
+  }
+
+  .logo {
+    height: 30px;
+  }
+
+  .hero h1 {
+    font-size: 20px;
+  }
+
+  .stats-grid {
+    gap: 8px;
+  }
+
+  .stat-box {
+    padding: 16px 10px 14px;
+  }
+
+  .stat-number {
+    font-size: 24px;
+  }
+
+  .service-card {
+    flex: 0 0 88vw;
+    height: 260px;
+  }
+
+  .offer-card {
+    flex: 0 0 90vw;
+  }
+
+  .p-card {
+    flex: 0 0 92vw;
+  }
+}
+
+/* ============================================================
+   SCROLL INDICATOR DOTS (Mobile Horizontal Cards)
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Scroll indicator for horizontal cards */
+  .services-container,
+  .offer-grid,
+  .pricing-grid {
+    position: relative;
+  }
+
+  /* Touch scroll hint animation - first load only */
+  @keyframes scrollHint {
+    0%   { transform: translateX(0); }
+    30%  { transform: translateX(-12px); }
+    60%  { transform: translateX(6px); }
+    100% { transform: translateX(0); }
+  }
+
+  .service-card:first-child,
+  .offer-card:first-child,
+  .p-card:first-child {
+    animation: scrollHint 1.2s ease 1.5s 1 both;
+  }
+}
+
+/* ============================================================
+   MOBILE NAV — Compact pill nav below header
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Show compact pill nav */
+  header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px 4% 6px;
+  }
+
+  .header-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 4px;
+    padding: 4px 0 6px;
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  nav a {
+    flex-shrink: 0;
+    padding: 5px 11px;
+    font-size: 11px;
+    white-space: nowrap;
+    border-radius: 20px;
+    background: var(--nav-hover-bg);
+  }
+
+  nav a::after {
+    display: none; /* Remove underline animation on mobile */
+  }
+
+  nav a.active {
+    background: rgba(53, 109, 255, 0.15);
+    color: #356DFF;
+  }
+}
+
+/* ============================================================
+   UTILITIES — Remove unwanted margins/paddings
+   ============================================================ */
+
+/* Prevent horizontal overflow globally */
+.react-services-section,
+.offer-section,
+.pricing-section,
+.rv-section,
+.why-section,
+.ba-section,
+.faq-section,
+.booking-section,
+.stats-section,
+footer {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Fix ambient orbs causing overflow */
+.ambient-orbs {
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Fix section anchors removing unwanted space */
+.section-anchor {
+  display: block;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  visibility: hidden;
+  overflow: hidden;
+}
+
+/* Fix offer strip on mobile */
+@media (max-width: 768px) {
+  .offer-strip {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 40px;
+  }
+}
+
+/* Fix BA trust on mobile */
+@media (max-width: 768px) {
+  .ba-trust {
+    justify-content: space-around;
+  }
+
+  .ba-trust-num {
+    font-size: 28px;
+  }
+
+  .ba-trust-label {
+    font-size: 10px;
+  }
+}
+
+/* Team modal responsive */
+@media (max-width: 768px) {
+  .tm-modal {
+    padding: 28px 18px;
+    max-width: 95vw;
+  }
+
+  .tm-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tm-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .tm-img-wrap {
+    width: 80px;
+    height: 80px;
+  }
+
+  .tm-info h3 {
+    font-size: 13px;
+  }
+
+  .tm-role {
+    font-size: 10px;
+  }
+}
+
+/* ============================================================
+   LARGE DESKTOP — min-width: 1400px
+   ============================================================ */
+@media (min-width: 1400px) {
+  section {
+    padding: 90px 8%;
+  }
+
+  .stats-section {
+    padding: 0 8% 90px;
+  }
+
+  .react-services-section {
+    padding: 90px 8%;
+  }
+
+  .services-container {
+    max-width: 1400px;
+  }
+
+  .hero h1 {
+    font-size: 52px;
+  }
+
+  .why-heading,
+  .ba-heading,
+  .rv-heading,
+  .pricing-heading,
+  .faq-heading,
+  .booking-heading,
+  .offer-heading {
+    font-size: 48px;
+  }
 }

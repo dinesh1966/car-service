@@ -19,32 +19,15 @@
   });
 
   /* ── Custom cursor ── */
-  const dot  = document.querySelector('.cursor-dot');
-  const ring = document.querySelector('.cursor-ring');
-  if (dot && ring) {
-    let mx = 0, my = 0, rx = 0, ry = 0;
+  const dot = document.querySelector('.cursor-dot');
+  if (dot) {
+    let mx = 0, my = 0;
     document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
     const animCursor = () => {
-      dot.style.transform  = `translate(${mx}px,${my}px)`;
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
-      ring.style.transform = `translate(${rx}px,${ry}px)`;
+      dot.style.transform = `translate(calc(${mx}px - 50%), calc(${my}px - 50%))`;
       requestAnimationFrame(animCursor);
     };
     animCursor();
-
-    /* Scale ring on interactive elements */
-    const interactSels = 'a,button,.service-card,.why-card,.offer-card,.ba-card,.p-card,.rv-card,.stat-box,.addon-chip';
-    document.addEventListener('mouseover', e => {
-      if (e.target.closest(interactSels)) {
-        ring.classList.add('ring-hover');
-      }
-    });
-    document.addEventListener('mouseout', e => {
-      if (e.target.closest(interactSels)) {
-        ring.classList.remove('ring-hover');
-      }
-    });
 
     /* Magic cursor glow logic */
     const magicGlow = document.querySelector('.magic-glow');
@@ -76,74 +59,11 @@
   const hero = document.querySelector('.hero');
 
   function onScroll() {
-    const sy = window.scrollY;
-
-    /* Hero BG parallax — moves at 0.4× scroll speed */
-    if (heroBg) {
-      heroBg.style.transform = `scale(1.12) translateY(${sy * 0.4}px)`;
-    }
-    /* Hero content — subtle upward drift */
-    if (heroContent) {
-      heroContent.style.transform = `translateY(${sy * 0.18}px)`;
-      heroContent.style.opacity = Math.max(0, 1 - sy / 500);
-    }
-
-    /* Hero stats bar parallax */
-    const statsBar = document.querySelector('.hero-stats-bar');
-    if (statsBar && hero) {
-      const heroH = hero.offsetHeight;
-      const prog = Math.min(sy / heroH, 1);
-      statsBar.style.transform = `translateY(${sy * 0.15}px)`;
-      statsBar.style.opacity = Math.max(0.4, 1 - prog * 0.5);
-    }
-
-    /* Section fade in/out on scroll */
-    updateFadeSections();
-
-    /* Card parallax depth effect */
-    updateCardParallax(sy);
+    /* Updated scroll handler - effects removed */
+    updateHeader();
   }
 
-  /* ── Scroll-triggered Fade In / Fade Out ── */
-  function updateFadeSections() {
-    const sections = document.querySelectorAll('.fade-section, .react-services-section, .why-section, .offer-section, .ba-section, .rv-section, .pricing-section, .faq-section, .booking-section, footer');
-    const wh = window.innerHeight;
-
-    sections.forEach(sec => {
-      const rect = sec.getBoundingClientRect();
-      // Delay fade-in until section is further up the screen, and delay fade-out
-      const inView = rect.top < wh * 0.60 && rect.bottom > wh * 0.15;
-      const aboveView = rect.bottom < wh * 0.15;
-
-      if (inView) {
-        sec.classList.add('section-visible');
-        sec.classList.remove('section-hidden-below', 'section-hidden-above');
-      } else if (aboveView) {
-        sec.classList.add('section-hidden-above');
-        sec.classList.remove('section-visible', 'section-hidden-below');
-      } else {
-        sec.classList.add('section-hidden-below');
-        sec.classList.remove('section-visible', 'section-hidden-above');
-      }
-    });
-
-    /* Staggered children inside visible sections */
-    document.querySelectorAll('.section-visible .stagger-child').forEach((el, i) => {
-      setTimeout(() => el.classList.add('child-visible'), i * 80);
-    });
-  }
-
-  /* ── Subtle card depth parallax (mouse-independent, scroll-based) ── */
-  function updateCardParallax(sy) {
-    document.querySelectorAll('.stat-box, .why-card, .offer-card, .p-card').forEach((card, i) => {
-      const rect = card.getBoundingClientRect();
-      const center = rect.top + rect.height / 2 - window.innerHeight / 2;
-      const depth = center * 0.03 * (i % 2 === 0 ? 1 : -1);
-      if (!card.matches(':hover')) {
-        card.style.setProperty('--parallax-y', `${depth}px`);
-      }
-    });
-  }
+  /* Parallax and Fade effects removed */
 
   /* ── 3D Tilt on Cards (mouse over) ── */
   function addTilt(selector, intensity = 12) {
@@ -156,7 +76,7 @@
       const dx = (e.clientX - cx) / (rect.width / 2);
       const dy = (e.clientY - cy) / (rect.height / 2);
       const rotX = -dy * intensity;
-      const rotY =  dx * intensity;
+      const rotY = dx * intensity;
       card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.04) translateY(-6px)`;
       card.style.boxShadow = `${-dx * 20}px ${-dy * 20}px 60px rgba(53,109,255,0.18), 0 30px 80px rgba(0,0,0,0.4)`;
 
@@ -164,7 +84,7 @@
       const shimmer = card.querySelector('.glass-shimmer');
       if (shimmer) {
         // Spotlight reflection
-        shimmer.style.background = `radial-gradient(circle at ${(dx+1)*50}% ${(dy+1)*50}%, rgba(255,255,255,0.12) 0%, transparent 65%)`;
+        shimmer.style.background = `radial-gradient(circle at ${(dx + 1) * 50}% ${(dy + 1) * 50}%, rgba(255,255,255,0.12) 0%, transparent 65%)`;
       }
       const magicBorder = card.querySelector('.magic-border');
       if (magicBorder) {
@@ -241,7 +161,7 @@
       const ripple = document.createElement('span');
       ripple.className = 'btn-ripple';
       ripple.style.left = `${e.clientX - rect.left}px`;
-      ripple.style.top  = `${e.clientY - rect.top}px`;
+      ripple.style.top = `${e.clientY - rect.top}px`;
       btn.appendChild(ripple);
       setTimeout(() => ripple.remove(), 700);
     });
@@ -261,13 +181,13 @@
   /* ── Init after DOM ready ── */
   function init() {
     /* Tilt on cards */
-    addTilt('.stat-box',    8);
-    addTilt('.why-card',    8);
-    addTilt('.offer-card',  7);
-    addTilt('.p-card',      7);
-    addTilt('.rv-card',     5);
-    addTilt('.ba-card',     6);
-    addTilt('.service-card',6);
+    addTilt('.stat-box', 8);
+    addTilt('.why-card', 8);
+    addTilt('.offer-card', 7);
+    addTilt('.p-card', 7);
+    addTilt('.rv-card', 5);
+    addTilt('.ba-card', 6);
+    addTilt('.service-card', 6);
 
     /* Shimmer injection — retry after React renders */
     const shimmerSelectors = '.stat-box,.why-card,.offer-card,.p-card,.rv-card,.ba-card,.service-card';
@@ -289,12 +209,9 @@
 
     /* Scroll listeners */
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('scroll', updateHeader, { passive: true });
 
     /* Initial call */
     onScroll();
-    updateHeader();
-    updateFadeSections();
 
     /* Observe dynamically added React cards with MutationObserver */
     const mo = new MutationObserver(() => {
