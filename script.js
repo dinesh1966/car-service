@@ -152,8 +152,100 @@ ReactDOM.createRoot(document.getElementById('react-offers-root')).render(<Offers
 
 
 
-function BeforeAfterSection(){const cards=[{type:"before",img:"https://images.unsplash.com/photo-1504215680853-026ed2a45def?w=700&q=80",service:"Exterior — Before Service",desc:"Faded paint, dust-caked surfaces, scratched panels and grimy wheels before our detailing treatment.",tags:["Paint Damage","Heavy Dust","Scratches"]},{type:"after",img:"https://images.unsplash.com/photo-1555215695-3004980ad54e?w=700&q=80",service:"Exterior — After Service",desc:"Mirror-finish paint correction, ceramic coating applied, wheels polished to factory-new condition.",tags:["Paint Corrected","Ceramic Coat","Showroom Finish"]},{type:"before",img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80",service:"Interior — Before Service",desc:"Stained seats, dusty dashboard, foul odour and cluttered floor mats — completely neglected interior.",tags:["Stained Seats","Bad Odour","Dirty Mats"]},{type:"after",img:"https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=700&q=80",service:"Interior — After Service",desc:"Deep vacuumed, steam-cleaned leather seats, fresh air treatment and dashboard conditioned like new.",tags:["Steam Cleaned","Fresh Scent","Like New"]}];return(<section className="ba-section"><div className="ba-header"><span className="ba-label">Real Results</span><h2 className="ba-heading">Before <span>&amp; After</span></h2><p className="ba-subtext">Every car tells a story. See the difference our certified mechanics and detailing experts make.</p></div><div className="ba-grid">{cards.map((card,i)=>(<div className="ba-card" key={i}><img src={card.img} alt={card.service}/><div className="ba-card-overlay"/><div className={`ba-badge ${card.type==="before"?"ba-badge-before":"ba-badge-after"}`}>{card.type==="before"?"● Before":"✓ After"}</div><div className="ba-content"><div className="ba-service-name">{card.service}</div><div className="ba-desc">{card.desc}</div><div className="ba-tags">{card.tags.map((t,j)=><span className="ba-tag" key={j}>{t}</span>)}</div></div></div>))}</div></section>);}
-ReactDOM.createRoot(document.getElementById('react-ba-root')).render(<BeforeAfterSection/>);
+function GallerySection(){
+  const images = [
+    {url: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80", title: "Premium Detailing", desc: "Mirror-finish paint correction and ceramic coating for a showroom glow."},
+    {url: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80", title: "Engine Diagnostics", desc: "Advanced performance tuning and electronic checks by certified experts."},
+    {url: "https://res.cloudinary.com/drkgkgiat/image/upload/v1773388156/Gemini_Generated_Image_82altq82altq82al_cjwje4.png", title: "Luxury Interiors", desc: "Deep steam cleaning and leather restoration for ultimate cabin comfort."},
+    {url: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80", title: "Showroom Shine", desc: "Complete exterior protection and high-gloss finish for every vehicle."},
+    {url: "https://res.cloudinary.com/drkgkgiat/image/upload/v1773388328/Gemini_Generated_Image_36arvd36arvd36ar_clxevj.png", title: "Full Inspection", desc: "Comprehensive 150-point safety and health check for complete peace of mind."}
+  ];
+
+  const [index, setIndex] = React.useState(0);
+  const [paused, setPaused] = React.useState(false);
+
+  const next = React.useCallback(() => setIndex((i) => (i + 1) % images.length), [images.length]);
+  const prev = () => setIndex((i) => (i - 1 + images.length) % images.length);
+
+  React.useEffect(() => {
+    if (paused) return;
+    const timer = setInterval(next, 4000);
+    return () => clearInterval(timer);
+  }, [next, paused]);
+
+  return (
+    <section className="gallery-section" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+      <div className="gallery-header">
+        <span className="gallery-label">Visual Excellence</span>
+        <h2 className="gallery-heading">Our <span>Gallery</span></h2>
+        <p className="gallery-subtext">Take a look at the premium care we provide for every vehicle that enters our workshop.</p>
+      </div>
+      
+      <div className="gallery-container">
+        <div className="gallery-3d-wrap">
+          {images.map((img, i) => {
+            let offset = i - index;
+            // handle wrapping for smooth infinite feel
+            if (offset > images.length / 2) offset -= images.length;
+            if (offset < -images.length / 2) offset += images.length;
+
+            const absOffset = Math.abs(offset);
+            const isActive = offset === 0;
+            
+            return (
+              <div 
+                key={i}
+                className={`gallery-card ${isActive ? 'active' : ''}`}
+                style={{
+                  '--offset': offset,
+                  '--abs-offset': absOffset,
+                  pointerEvents: absOffset > 1 ? 'none' : 'auto',
+                  opacity: absOffset > 2.5 ? 0 : 1,
+                  zIndex: 10 - absOffset
+                }}
+                onClick={() => setIndex(i)}
+              >
+                <div className="gallery-card-inner">
+                  <div className="gallery-img-wrap">
+                    <img src={img.url} alt={img.title} />
+                    <div className="gallery-card-overlay" />
+                  </div>
+                  <div className="gallery-card-content">
+                    <h3>{img.title}</h3>
+                    <p>{img.desc}</p>
+                    <div className="gallery-card-line" />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        
+        <div className="gallery-footer">
+          <div className="gallery-controls">
+            <button onClick={prev} className="gallery-nav-btn" aria-label="Previous">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <div className="gallery-dots">
+              {images.map((_, i) => (
+                <button 
+                  key={i} 
+                  className={`gallery-dot ${i === index ? 'active' : ''}`} 
+                  onClick={() => setIndex(i)} 
+                  aria-label={`Go to slide ${i + 1}`}
+                />
+              ))}
+            </div>
+            <button onClick={next} className="gallery-nav-btn" aria-label="Next">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+ReactDOM.createRoot(document.getElementById('react-ba-root')).render(<GallerySection/>);
 
 
 
@@ -256,8 +348,7 @@ ReactDOM.createRoot(document.getElementById('react-reviews-root')).render(<Revie
 
 
 function useOdometer(target,duration=1200){const[display,setDisplay]=React.useState(0);const raf=React.useRef(null);React.useEffect(()=>{let start=null;const step=ts=>{if(!start)start=ts;const p=Math.min((ts-start)/duration,1);const ease=p===1?1:1-Math.pow(2,-10*p);setDisplay(Math.round(target*ease));if(p<1)raf.current=requestAnimationFrame(step);};raf.current=requestAnimationFrame(step);return()=>cancelAnimationFrame(raf.current);},[target,duration]);return display;}
-function PricingSection(){const plans=[{name:'Basic',monthly:499,quarterly:399,period_m:'/month',period_q:'/month (billed quarterly)',save:'Save ₹300 / Quarter',features:['Exterior Foam Wash','Interior Vacuum','Tyre Cleaning','Dashboard Wipe','Air Freshener'],popular:false},{name:'Premium',monthly:1499,quarterly:1199,period_m:'/month',period_q:'/month (billed quarterly)',save:'Save ₹900 / Quarter',features:['Full Wash + Polish','Deep Interior Clean','Engine Check','Wiper Fluid Top-up','Tyre Pressure Check','Free Pickup & Drop'],popular:true},{name:'Complete',monthly:2999,quarterly:2399,period_m:'/month',period_q:'/month (billed quarterly)',save:'Save ₹1800 / Quarter',features:['Ceramic Coating','Oil Change Included','AC Service','Battery Check','Full Detailing','Priority Booking'],popular:false}];const addons=['AC Gas Refill +₹799','Battery Test +₹199','Tyre Rotation +₹299','Dent Removal +₹999','Interior Perfume +₹149'];return(<section className="pricing-section"><div className="pricing-header"><span className="pricing-label">Transparent Pricing</span><h2 className="pricing-heading">Choose Your <span>Plan</span></h2></div><div className="pricing-grid">{plans.map((plan,i)=><PlanCard key={i} plan={plan} addons={addons}/>)}</div></section>);}
-function PlanCard({plan,addons}){const[billing,setBilling]=React.useState('monthly');const[selected,setSelected]=React.useState([]);const price=billing==='monthly'?plan.monthly:plan.quarterly;const period=billing==='monthly'?plan.period_m:plan.period_q;const displayPrice=useOdometer(price,1100);const toggleAddon=a=>setSelected(p=>p.includes(a)?p.filter(x=>x!==a):[...p,a]);const addonTotal=selected.reduce((sum,a)=>{const m=a.match(/\+(₹[\d,]+)/);return sum+(m?parseInt(m[1].replace(/[₹,]/g,'')):0);},0);const totalDisplay=useOdometer(price+addonTotal,900);return(<div className={`p-card${plan.popular?' popular':''}`}>{plan.popular&&<div className="popular-badge">Most Popular</div>}<div className="p-plan-name">{plan.name} Plan</div><div className="billing-toggle" style={{marginBottom:'24px',width:'100%',display:'flex'}}><button className={`billing-btn${billing==='monthly'?' active':''}`} style={{flex:1}} onClick={()=>setBilling('monthly')}>Monthly</button><button className={`billing-btn${billing==='quarterly'?' active':''}`} style={{flex:1}} onClick={()=>setBilling('quarterly')}>Quarterly</button></div><div className="p-price-wrap"><span className="p-currency">₹</span><span className="p-amount odo-num">{displayPrice.toLocaleString('en-IN')}</span></div><div className="p-period">{period}</div>{billing==='quarterly'&&<div className="p-save">{plan.save}</div>}<hr className="p-divider"/><ul className="p-features">{plan.features.map((f,j)=><li key={j}><span className="check">✓</span>{f}</li>)}</ul><div className="p-addons"><div className="p-addons-title">Add-On Services</div><div className="addon-chips">{addons.map((a,j)=><button key={j} className={`addon-chip${selected.includes(a)?' selected':''}`} onClick={()=>toggleAddon(a)}>{a}</button>)}</div>{selected.length>0&&<div className="addon-total">Total: <span>₹{totalDisplay.toLocaleString('en-IN')}</span></div>}</div><button className={`p-btn${plan.popular?' primary':''}`} onClick={()=>window.dispatchEvent(new CustomEvent('open-booking-modal',{detail:{service:plan.name+' Plan'}}))}>Book {plan.name} Plan</button></div>);}
+function PricingSection(){const plans=[{name:'Hatchback',price:749,original:899},{name:'Sedan / Compact SUV',price:849,original:1049},{name:'SUV',price:949,original:1198},{name:'Luxury Cars',price:999,original:1299}];return(<section className="pricing-section"><div className="pricing-split-wrapper"><div className="pricing-content-side"><span className="pricing-label">Monthly Subscription</span><h2 className="pricing-heading" style={{textAlign:'left',marginBottom:'15px'}}>Daily Waterless <span>Car Cleaning</span></h2><p style={{color:'var(--text-muted)',marginBottom:'30px'}}>Professional daily cleaning at your doorstep. Eco-friendly waterless technology.</p><div className="pricing-list">{plans.map((plan,i)=><PlanRowItem key={i} plan={plan}/>)}</div></div><div className="pricing-image-side"><img src="https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=1000&q=80" alt="Professional Car Wash"/><div className="pricing-image-overlay"/></div></div></section>);}function PlanRowItem({plan}){const displayPrice=useOdometer(plan.price,1000);return(<div className="plan-row-item" onClick={()=>window.dispatchEvent(new CustomEvent('open-booking-modal',{detail:{service:plan.name+' Subscription'}}))}><div className="plan-info-main"><div className="plan-type-name">{plan.name}</div><div className="plan-price-group"><span className="plan-curr-price">₹{displayPrice.toLocaleString('en-IN')}</span>{plan.original&&<span className="plan-orig-price">₹{plan.original}</span>}<span style={{fontSize:'12px',color:'var(--text-muted)'}}>/ month</span></div></div><button className="plan-row-btn">Subscribe →</button></div>);}
 function FAQSection(){const[open,setOpen]=React.useState(null);const faqs=[{q:'How long does a car service take?',a:'Most services are completed in 1–2 hours. Full detailing packages may take up to 4 hours. We always give you a time estimate before starting.'},{q:'Do you provide doorstep pickup & drop?',a:'Yes! We offer free doorstep pickup and drop for Premium and Complete plan customers. Basic plan customers can opt-in for ₹99 extra.'},{q:'Do you use genuine OEM parts?',a:'Absolutely. We only source certified OEM-grade spare parts from authorised distributors. You receive a parts invoice for every replacement.'},{q:'Can I customise my service package?',a:'Yes — each plan has add-on options in the pricing section above. You can also call us for fully custom packages for fleet or luxury vehicles.'},{q:'How do I track my car during service?',a:'After booking, you receive a live WhatsApp status update at each stage: Pickup → In Service → Quality Check → Delivered.'},{q:'What payment methods do you accept?',a:'We accept UPI, cards, net banking and cash. Full payment is collected only after service delivery — no advance required.'}];return(<section className="faq-section"><div className="faq-inner"><div className="faq-left"><div className="faq-header"><span className="faq-label">Got Questions?</span><h2 className="faq-heading">Frequently <span>Asked</span></h2><p className="faq-subtext">Everything you need to know about our services, pricing and process. Can't find your answer? Call us anytime.</p></div><div className="faq-list">{faqs.map((f,i)=>(<div className={`faq-item-new${open===i?' open':''}`} key={i}><button className="faq-q" onClick={()=>setOpen(open===i?null:i)}>{f.q}<span className="faq-icon">+</span></button><div className={`faq-a${open===i?' open':''}`}><p>{f.a}</p></div></div>))}</div></div><div className="faq-right"><div className="faq-img-wrap"><img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&q=85" alt="Professional car service"/><div className="faq-img-overlay"/><div className="faq-img-badge">🏆 Certified Workshop</div><div className="faq-img-content"><div className="faq-img-title">Professional Care,<br/>Every Single Time.</div><div className="faq-img-desc">Our certified mechanics use OEM parts and follow manufacturer-grade service standards — your car is in safe hands.</div><div className="faq-img-stats"><div className="faq-img-stat"><div className="faq-img-stat-num">5000+</div><div className="faq-img-stat-label">Cars Serviced</div></div><div className="faq-img-stat"><div className="faq-img-stat-num">4.9★</div><div className="faq-img-stat-label">Rating</div></div><div className="faq-img-stat"><div className="faq-img-stat-num">3 Yrs</div><div className="faq-img-stat-label">Experience</div></div></div><button className="faq-img-cta" onClick={()=>window.dispatchEvent(new CustomEvent('open-booking-modal',{detail:{service:'General Service'}}))} >Book a Service →</button></div></div></div></div></section>);}
 function BookingSection(){const contactItems=[{icon:'\ud83d\udcde',title:'Call Us',value:'+91 99999 99999',sub:'Mon\u2013Sat, 9 AM \u2013 6 PM'},{icon:'\ud83d\udce7',title:'Email Us',value:'hello@carcare.in',sub:'We reply within 2 hours'},{icon:'\ud83d\udccd',title:'Visit Us',value:'Anna Nagar, Chennai',sub:'Opposite Metro Station'},{icon:'\ud83d\udd50',title:'Working Hours',value:'9:00 AM \u2013 6:00 PM',sub:'Sunday: Closed'}];return(<section className="booking-section"><div className="cta-wrapper"><div className="cta-left"><span className="booking-label">Get In Touch</span><h2 className="booking-heading">Ready to Give Your Car the <span>Best Care?</span></h2><p className="cta-desc">Book your appointment in seconds. Our certified mechanics are ready to serve you with premium quality service.</p><div className="cta-buttons"><button className="cta-book-btn" onClick={()=>window.dispatchEvent(new CustomEvent('open-booking-modal',{detail:{service:'General Service'}}))}>📅 Book Appointment</button><a href="https://wa.me/919999999999" className="cta-wa-btn" target="_blank" rel="noreferrer">💬 WhatsApp Us</a></div><div className="cta-trust"><span>✅ Free Pickup & Drop</span><span>✅ Genuine Parts</span><span>✅ 90 Min Avg Service</span></div></div><div className="cta-right"><div className="cta-contact-grid">{contactItems.map((c,i)=>(<div className="cta-contact-card" key={i}><div className="cta-contact-icon">{c.icon}</div><div className="cta-contact-info"><div className="cta-contact-title">{c.title}</div><div className="cta-contact-value">{c.value}</div><div className="cta-contact-sub">{c.sub}</div></div></div>))}</div></div></div></section>);}
 ReactDOM.createRoot(document.getElementById('react-pricing-root')).render(<PricingSection/>);
